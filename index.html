@@ -1,0 +1,99 @@
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment-with-locales.js"></script>
+<script src="https://cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.js"></script>
+<link href="https://cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.css" rel="stylesheet">
+<script type="text/javascript" src="js/calendar.js"></script>
+
+<body>
+  <div class="container" ng-app="myApp" ng-controller="formCtrl as ctrl">
+    <!-- // Show the view of date selection. -->
+    <h1>Workout Tracker</h1>
+    <form novalidate="novalidate" class="form-horizontal">
+      <label>From Date
+        <div class="input-group" moment-picker="ctrl.datepicker" format="YYYY-MM-DD">
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </span>
+          <input class="form-control" ng-model="ctrl.datepicker | date: 'yyyy-MM-dd'" ng-model-options="{ updateOn: 'blur' }">
+        </div>
+      </label>
+      <label>To Date
+        <div class="input-group" moment-picker="ctrl.datepicker2" format="YYYY-MM-DD">
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </span>
+          <input class="form-control" ng-model="ctrl.datepicker2 | date: 'yyyy-MM-dd'" ng-model-options="{ updateOn: 'blur' }">
+        </div>
+      </label>
+      <div class="input-group">
+        <button class="btn btn-default btn-block" ng-disabled="ctrl.datepicker > ctrl.datepicker2" ng-click="fetch()">FETCH</button>
+      </div>
+    </form>
+    <!-- // Show the results of fetched data. -->
+      <h3>{{workoutNumber}}</h3>
+      <div class="btn-group btn-group-justified">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-danger" ng-if="workoutDetails.length > 1" ng-click="sort('onName')">Sort by Name</button>
+        </div>
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-primary" ng-if="workoutDetails.length > 1" ng-click="sort('onTime')">Sort by Time</button></div>
+      </div>
+    <!-- // Show the result of fetched data without ordering. -->
+    <div ng-show="orderByNone">
+      <table class="table table-hover" ng-if="workoutDetails.length > 0">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Type</th>
+            <th>Start Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="(key, value) in workoutDetails">
+            <td>{{key + 1}}</td>
+            <td>{{value.type}}</td>
+            <td>{{value.startTime}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- // Show the result of fetched data with ordering by name. -->
+    <div ng-show="orderByName">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Type</th>
+            <th>Start Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="(key, value) in workoutDetails | orderBy: 'type'">
+            <td>{{key + 1}}</td>
+            <td>{{value.type}}</td>
+            <td>{{value.startTime}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- // Show the result of fetched data with ordering by start time. -->
+    <div ng-show="orderByStartTime">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Type</th>
+            <th>Start Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="(key, value) in workoutDetails | orderBy: 'startTime'">
+            <td>{{key + 1}}</td>
+            <td>{{value.type}}</td>
+            <td>{{value.startTime}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
