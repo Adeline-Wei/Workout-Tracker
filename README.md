@@ -1,2 +1,2 @@
 # Workout-Tracker
-![http://g.recordit.co/SDcRGwXnZt.gif]
+![https://github.com/Adeline-Wei/Workout-Tracker/blob/master/images/screenshot.gif]
